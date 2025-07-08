@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { OrbitControls, Environment, Text } from '@react-three/drei';
 import { useGame } from '../contexts/GameContext';
 import { useAudio } from '../contexts/AudioContext';
-import { mockLevels } from '../data/mock';
 
 // Game Components
 import HandController from './game/HandController';
@@ -16,7 +15,7 @@ import Environment3D from './game/Environment3D';
 
 const GameCanvas = () => {
   const { levelId } = useParams();
-  const { gameState, dispatch } = useGame();
+  const { gameState, completeLevel, startGameSession } = useGame();
   const { playMusic, playSFX, playVoiceover } = useAudio();
   const { camera, scene } = useThree();
   
@@ -26,12 +25,13 @@ const GameCanvas = () => {
   const [ballsInTargets, setBallsInTargets] = useState(new Set());
   const [levelComplete, setLevelComplete] = useState(false);
   const [showVoiceover, setShowVoiceover] = useState(true);
+  const [sessionId, setSessionId] = useState(null);
   
   const gameStartTime = useRef(null);
   const gravityShiftTimer = useRef(null);
   const voiceoverTimer = useRef(null);
   
-  const currentLevel = mockLevels.find(l => l.id === levelId);
+  const currentLevel = gameState.levels.find(l => l.id === levelId);
 
   // Initialize level
   useEffect(() => {
