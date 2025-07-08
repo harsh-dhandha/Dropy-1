@@ -46,6 +46,11 @@ const GameCanvas = () => {
       // Play level music
       playMusic(levelId);
       
+      // Start game session
+      startGameSession(levelId).then(id => {
+        setSessionId(id);
+      });
+      
       // Show voiceover
       if (currentLevel.voiceover) {
         playVoiceover(levelId);
@@ -71,7 +76,7 @@ const GameCanvas = () => {
         clearTimeout(voiceoverTimer.current);
       }
     };
-  }, [currentLevel, levelId, playMusic, playVoiceover, playSFX]);
+  }, [currentLevel, levelId, playMusic, playVoiceover, playSFX, startGameSession]);
 
   // Game timer
   useFrame((state, delta) => {
