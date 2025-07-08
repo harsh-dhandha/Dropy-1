@@ -115,7 +115,7 @@ const LevelSelect = () => {
         <div className="text-right">
           <div className="text-sm text-gray-400">Progress</div>
           <div className="text-2xl font-bold text-white">
-            {gameState.completedLevels.length}/{mockLevels.length}
+            {gameState.completedLevels.length}/{gameState.levels.length}
           </div>
         </div>
       </motion.div>
