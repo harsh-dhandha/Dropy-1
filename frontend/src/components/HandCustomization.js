@@ -182,7 +182,7 @@ const HandCustomization = () => {
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {mockHandSkins.map((skin, index) => {
+            {gameState.handSkins.map((skin, index) => {
               const unlocked = isHandSkinUnlocked(skin.id);
               const isSelected = selectedSkin === skin.id;
               const isCurrent = skin.id === gameState.selectedHandSkin;
