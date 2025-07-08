@@ -9,6 +9,15 @@ class BaseDocument(BaseModel):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
+# Status Check Models
+class StatusCheckCreate(BaseModel):
+    message: str
+    status: str
+
+class StatusCheck(BaseDocument):
+    message: str
+    status: str
+
 # Hand Skin Models
 class HandSkin(BaseDocument):
     name: str
