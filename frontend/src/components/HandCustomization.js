@@ -51,10 +51,15 @@ const HandCustomization = () => {
     }
   };
 
-  const handleApply = () => {
+  const handleApply = async () => {
     if (selectedSkin !== gameState.selectedHandSkin) {
-      dispatch({ type: 'SELECT_HAND_SKIN', payload: selectedSkin });
-      playSFX('levelComplete');
+      try {
+        await selectHandSkin(selectedSkin);
+        playSFX('levelComplete');
+      } catch (error) {
+        playSFX('release');
+        // Error handling is done in the context
+      }
     }
     navigate('/');
   };
