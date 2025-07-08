@@ -14,20 +14,8 @@ const TargetZone = ({ targetId, position, size }) => {
     position: position,
     args: size,
     type: 'Static',
-    isTrigger: true,
-    onCollisionEnter: (event) => {
-      // Check if a ball entered
-      setIsActive(true);
-      setBallsInside(prev => prev + 1);
-    },
-    onCollisionExit: (event) => {
-      // Check if a ball exited
-      setBallsInside(prev => {
-        const newCount = Math.max(0, prev - 1);
-        setIsActive(newCount > 0);
-        return newCount;
-      });
-    }
+    isTrigger: true
+    // Removed onCollisionEnter and onCollisionExit
   }));
 
   // Spring animation for target effects

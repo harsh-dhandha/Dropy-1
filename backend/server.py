@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
 from typing import List
 import uuid
 from datetime import datetime
+from contextlib import asynccontextmanager
 
 # Import game models and services
 from models import (
@@ -32,16 +33,24 @@ db = client[os.environ['DB_NAME']]
 game_service = GameService(db)
 
 # Create the main app without a prefix
-app = FastAPI(title="Hand of Gravity API", description="API for Hand of Gravity 3D Puzzle Game", version="1.0.0")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup logic
+    await game_service.initialize_game_data()
+    logging.info("Game data initialized")
+    yield
+    # Shutdown logic
+    client.close()
+
+app = FastAPI(
+    title="Hand of Gravity API",
+    description="API for Hand of Gravity 3D Puzzle Game",
+    version="1.0.0",
+    lifespan=lifespan
+)
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
-
-# Initialize game data on startup
-@app.on_event("startup")
-async def startup_event():
-    await game_service.initialize_game_data()
-    logging.info("Game data initialized")
 
 # Health check routes
 @api_router.get("/")
@@ -219,6 +228,7 @@ app.include_router(api_router)
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
+    # Allow all origins in development to avoid CORS issues. In production, replace with explicit domains.
     allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
@@ -231,6 +241,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-@app.on_event("shutdown")
-async def shutdown_db_client():
-    client.close()
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("server:app", host="0.0.0.0", port=8000, reload=True)

@@ -16,12 +16,7 @@ const Teleporter = ({ teleporterId, position, linkedTo, color, teleporters }) =>
     position: position,
     args: [1, 2, 1],
     type: 'Static',
-    isTrigger: true,
-    onCollisionEnter: (event) => {
-      if (!cooldown) {
-        handleTeleport(event);
-      }
-    }
+    isTrigger: true
   }));
 
   // Spring animation for teleporter effects

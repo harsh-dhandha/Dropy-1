@@ -1,12 +1,21 @@
 import axios from 'axios';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+// Determine backend URL
+// Always use local backend when running the UI on localhost to avoid CORS issues
+const isLocalhost = window?.location?.hostname === 'localhost' || window?.location?.hostname === '127.0.0.1';
+// 1. Use explicit env var if provided.
+// 2. Otherwise, when running locally on port 3000, default to http://localhost:8000 (matching backend default).
+// 3. Fallback to same-origin for production builds served by the backend itself.
+const BACKEND_URL = isLocalhost
+  ? 'http://localhost:8000'
+  : (process.env.REACT_APP_BACKEND_URL || window.location.origin);
+
 const API_BASE = `${BACKEND_URL}/api`;
 
 // Create axios instance with default config
 const api = axios.create({
   baseURL: API_BASE,
-  timeout: 10000,
+  timeout: 20000, // allow slower local dev responses
   headers: {
     'Content-Type': 'application/json',
   },

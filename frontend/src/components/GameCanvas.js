@@ -169,7 +169,7 @@ const GameCanvas = () => {
       <pointLight position={[0, 5, 0]} intensity={0.5} />
 
       {/* Environment */}
-      <Environment preset="sunset" />
+      <Environment files="/venice/venice_sunset_1k.hdr" />
       <Environment3D environment={currentLevel.environment} />
 
       {/* Camera controls */}
