@@ -5,17 +5,37 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { useGame } from '../contexts/GameContext';
 import { useAudio } from '../contexts/AudioContext';
-import { mockHandSkins } from '../data/mock';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { ArrowLeft, Lock, Check } from 'lucide-react';
+import LoadingScreen from './LoadingScreen';
 
 const HandCustomization = () => {
   const navigate = useNavigate();
-  const { gameState, dispatch, isHandSkinUnlocked } = useGame();
+  const { gameState, isHandSkinUnlocked, selectHandSkin } = useGame();
   const { playSFX } = useAudio();
   const [selectedSkin, setSelectedSkin] = useState(gameState.selectedHandSkin);
+
+  // Show loading screen while data is loading
+  if (gameState.loading || !gameState.dataLoaded) {
+    return <LoadingScreen />;
+  }
+
+  // Show error state if there's an error
+  if (gameState.error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-red-400 mb-4">Error Loading Hand Skins</h1>
+          <p className="text-gray-300 mb-8">{gameState.error.message}</p>
+          <Button onClick={() => navigate('/')} className="bg-purple-600 hover:bg-purple-700">
+            Back to Menu
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   const handleBack = () => {
     playSFX('release');
