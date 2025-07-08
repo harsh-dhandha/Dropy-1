@@ -13,8 +13,30 @@ const MainMenu = () => {
   const { playMusic, playSFX } = useAudio();
 
   useEffect(() => {
-    playMusic('menu');
-  }, [playMusic]);
+    if (gameState.dataLoaded) {
+      playMusic('menu');
+    }
+  }, [playMusic, gameState.dataLoaded]);
+
+  // Show loading screen while data is loading
+  if (gameState.loading || !gameState.dataLoaded) {
+    return <LoadingScreen />;
+  }
+
+  // Show error state if there's an error
+  if (gameState.error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-red-400 mb-4">Connection Error</h1>
+          <p className="text-gray-300 mb-8">{gameState.error.message}</p>
+          <Button onClick={() => window.location.reload()} className="bg-purple-600 hover:bg-purple-700">
+            Retry
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   const handlePlayClick = () => {
     playSFX('grab');
