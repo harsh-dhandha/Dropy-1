@@ -99,15 +99,15 @@ const GameCanvas = () => {
       playSFX('levelComplete');
       
       // Record completion
-      dispatch({
-        type: 'COMPLETE_LEVEL',
-        payload: {
-          levelId: currentLevel.id,
-          time: gameTime
-        }
-      });
+      const gameStats = {
+        grabs: 10, // These would be tracked during gameplay
+        releases: 8,
+        teleports: 2
+      };
+      
+      completeLevel(currentLevel.id, gameTime, gameStats);
     }
-  }, [ballsInTargets, currentLevel, levelComplete, gameTime, dispatch, playSFX]);
+  }, [ballsInTargets, currentLevel, levelComplete, gameTime, completeLevel, playSFX]);
 
   const handleGameStart = () => {
     setGameStarted(true);
