@@ -94,7 +94,7 @@ const HandCustomization = () => {
         <div className="text-right">
           <div className="text-sm text-gray-400">Unlocked Skins</div>
           <div className="text-2xl font-bold text-white">
-            {gameState.unlockedHandSkins.length}/{mockHandSkins.length}
+            {gameState.unlockedHandSkins.length}/{gameState.handSkins.length}
           </div>
         </div>
       </motion.div>
