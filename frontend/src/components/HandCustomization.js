@@ -64,7 +64,7 @@ const HandCustomization = () => {
     navigate('/');
   };
 
-  const selectedSkinData = mockHandSkins.find(skin => skin.id === selectedSkin);
+  const selectedSkinData = gameState.handSkins.find(skin => skin.id === selectedSkin);
 
   return (
     <div className="hand-customization min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
