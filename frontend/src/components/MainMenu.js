@@ -5,6 +5,7 @@ import { useGame } from '../contexts/GameContext';
 import { useAudio } from '../contexts/AudioContext';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
+import LoadingScreen from './LoadingScreen';
 
 const MainMenu = () => {
   const navigate = useNavigate();
